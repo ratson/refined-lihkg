@@ -3,7 +3,7 @@
 	"scripts": {
 		"lint": "run-p lint:*",
 		"lint:js": "xo",
-		"lint:css": "stylelint source/**/*.css",
+		"lint:css": "stylelint --allow-empty-input source/**/*.css",
 		"lint-fix": "run-p 'lint:* -- --fix'",
 		"test": "run-s lint:* build",
 		"build": "webpack --mode=production",
