@@ -1,0 +1,9 @@
+{
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"target": "esnext",
+		"declaration": false,
+		"esModuleInterop": true
+	},
+	"include": ["source", "test", "webpack.config.ts"]
+}
