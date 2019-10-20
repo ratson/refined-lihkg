@@ -5,8 +5,16 @@ before_script:
 
 stages:
   - test
+  - release
 
 test:
   stage: test
   script:
     - yarn test
+
+release:
+  stage: release
+  variables:
+    NODE_ENV: production
+  script:
+    - yarn release
