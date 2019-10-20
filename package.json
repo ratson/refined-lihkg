@@ -12,7 +12,7 @@
 		"watch-firefox": "run-p watch watch:firefox",
 		"prerelease:version": "VERSION=$(utc-version); echo $VERSION; dot-json distribution/manifest.json version $VERSION",
 		"prerelease:firefox": "web-ext build --source-dir=distribution --overwrite-dest",
-		"release": "run-s build prerelease:* release:*",
+		"release": "run-s build prerelease:* release:cws",
 		"release:cws": "webstore upload --source=distribution --auto-publish",
 		"release:amo": "web-ext-submit --source-dir distribution"
 	},

@@ -2,10 +2,8 @@ import path from 'path'
 // @ts-ignore
 import SizePlugin from 'size-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import TerserPlugin from 'terser-webpack-plugin'
 
 export default {
-	devtool: 'sourcemap',
 	stats: 'errors-only',
 	entry: {
 		background: './source/background',
@@ -41,19 +39,5 @@ export default {
 	],
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js']
-	},
-	optimization: {
-		minimizer: [
-			new TerserPlugin({
-				terserOptions: {
-					mangle: false,
-					compress: false,
-					output: {
-						beautify: true,
-						indent_level: 2
-					}
-				}
-			})
-		]
 	}
 }
