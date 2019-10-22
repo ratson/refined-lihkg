@@ -1,11 +1,6 @@
-import { createUseFetch } from 'fetch-suspense'
 import React from 'react'
 import styled from 'styled-components'
-
-const useFetch = createUseFetch(
-	// @ts-ignore
-	typeof content !== 'undefined' ? content.fetch : fetch
-)
+import useLabels from './useLabels'
 
 const LabelsContainer = styled.div`
 	font-size: 14px;
@@ -13,14 +8,11 @@ const LabelsContainer = styled.div`
 `
 
 const Labels: React.FC<{ profileId: string }> = ({ profileId }) => {
-	const response = useFetch(
-		'https://raw.githubusercontent.com/ratson/lihkg-data/master/labels.json'
-	) as string
-	const data = JSON.parse(response) as { [k: string]: Array<string> }
+	const labels = useLabels()
 
 	return (
 		<LabelsContainer>
-			{(data[profileId] || []).map(s => (
+			{(labels[profileId] || []).map(s => (
 				<div key={s}>{s}</div>
 			))}
 		</LabelsContainer>
