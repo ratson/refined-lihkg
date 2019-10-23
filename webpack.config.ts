@@ -4,6 +4,7 @@ import SizePlugin from 'size-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 export default {
+	devtool: 'sourcemap',
 	stats: 'errors-only',
 	entry: {
 		background: './source/background',

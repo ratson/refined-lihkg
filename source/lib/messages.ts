@@ -1,0 +1,5 @@
+export const FETCH_URL = 'FETCH_URL'
+export const FETCHED_URL = 'FETCHED_URL'
+
+export const GET_PROFILE_ID_BY_THREAD = 'GET_PROFILE_ID_BY_THREAD'
+export const GOT_PROFILE_ID = 'GOT_PROFILE_ID'

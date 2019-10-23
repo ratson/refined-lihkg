@@ -1,10 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ErrorBoundary from './ErrorBoundary'
 import Labels from './Labels'
+import ThreadLabels from './ThreadLabels'
 
 const extractProfileIdFromLink = (a: HTMLAnchorElement) => {
 	const m = (a.getAttribute('href') || '').match(/\/profile\/(\d+)/)
+	if (!m) {
+		return null
+	}
+	return m[1]
+}
+
+const extractThreadIdFromLink = (a: HTMLAnchorElement) => {
+	const m = (a.getAttribute('href') || '').match(/\/thread\/(\d+)/)
 	if (!m) {
 		return null
 	}
@@ -17,6 +25,19 @@ export const onDOMNodeInserted = (e: Event) => {
 		return
 	}
 
+	insertedDiv.querySelectorAll('a[href^="/thread/"]').forEach(threadA => {
+		const threadId = extractThreadIdFromLink(threadA as HTMLAnchorElement)
+		if (!threadId) {
+			return
+		}
+
+		const titleDiv = threadA.parentNode as HTMLDivElement
+
+		const labels = document.createElement('div')
+		titleDiv.insertAdjacentElement('beforebegin', labels)
+		ReactDOM.render(<ThreadLabels threadId={threadId} />, labels)
+	})
+
 	insertedDiv.querySelectorAll('[data-post-id]').forEach(postDiv => {
 		postDiv.querySelectorAll('div > small').forEach(metaDiv => {
 			const a = metaDiv.querySelector('span > a[href^="/profile/"]')
@@ -27,14 +48,7 @@ export const onDOMNodeInserted = (e: Event) => {
 
 			const labels = document.createElement('div')
 			metaDiv.insertAdjacentElement('afterend', labels)
-			ReactDOM.render(
-				<ErrorBoundary>
-					<React.Suspense fallback={<div />}>
-						<Labels profileId={profileId} />
-					</React.Suspense>
-				</ErrorBoundary>,
-				labels
-			)
+			ReactDOM.render(<Labels profileId={profileId} />, labels)
 		})
 	})
 }

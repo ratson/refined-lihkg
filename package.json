@@ -26,6 +26,7 @@
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.5.0",
+		"@types/chrome": "^0.0.91",
 		"@types/copy-webpack-plugin": "^5.0.0",
 		"@types/firefox-webext-browser": "^70.0.1",
 		"@types/node": "^12.11.1",

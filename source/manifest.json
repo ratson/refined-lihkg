@@ -16,11 +16,12 @@
 	},
 	"permissions": [
 		"activeTab",
+		"tabs",
 		"storage",
+		"webRequest",
 		"https://lihkg.com/*"
 	],
 	"background": {
-		"persistent": false,
 		"scripts": [
 			"browser-polyfill.min.js",
 			"background.js"
