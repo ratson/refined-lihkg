@@ -8,13 +8,22 @@ const LabelsContainer = styled.div`
 	margin-top: 2px;
 `
 
+const Label = styled.div`
+	display: inline-block;
+	margin-right: 4px;
+`
+
 const LabelsRow: React.FC<{ profileId: string }> = ({ profileId }) => {
 	const labels = useLabels()
+	const profileLabels = labels[profileId] || []
+	if (+profileId < 150000) {
+		profileLabels.unshift(`ID<${Math.floor(+profileId / 1000) + 1}k`)
+	}
 
 	return (
 		<LabelsContainer>
-			{(labels[profileId] || []).map(s => (
-				<div key={s}>{s}</div>
+			{profileLabels.map(s => (
+				<Label key={s}>{s}</Label>
 			))}
 		</LabelsContainer>
 	)
