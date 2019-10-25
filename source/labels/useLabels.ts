@@ -1,12 +1,32 @@
-import { createUseFetch } from 'fetch-suspense'
-import fetch from '../lib/fetch'
+import React from 'react'
+import { GET_LABELS_BY_PROFILE, GOT_LABELS } from '../lib/messages'
 
-const useFetch = createUseFetch(fetch)
+export const useLabelsByProfileId = (profileId: string) => {
+	const [labels, setLabels] = React.useState<Array<string>>([])
+	const [counter, setCounter] = React.useState(0)
 
-export default () => {
-	const response = useFetch(
-		'https://raw.githubusercontent.com/ratson/lihkg-data/master/labels.json'
-	) as string
-	const data = JSON.parse(response) as { [k: string]: Array<string> }
-	return data as { [k: string]: Array<string> }
+	React.useEffect(() => {
+		let timerId: number
+
+		chrome.runtime.sendMessage(
+			{ type: GET_LABELS_BY_PROFILE, profileId },
+			payload => {
+				if (!payload || payload.type !== GOT_LABELS) {
+					if (counter < 60) {
+						timerId = setTimeout(() => {
+							setCounter(counter + 1)
+						}, 1000)
+					}
+					return
+				}
+				setLabels(payload.labels)
+			}
+		)
+
+		return () => {
+			clearTimeout(timerId)
+		}
+	}, [profileId, counter])
+
+	return labels
 }
