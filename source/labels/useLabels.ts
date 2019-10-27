@@ -8,15 +8,15 @@ export const useLabelsByProfileId = (profileId: string) => {
 	React.useEffect(() => {
 		let timerId: number
 
+		if (counter >= 60) {
+			return
+		}
+
 		chrome.runtime.sendMessage(
 			{ type: GET_LABELS_BY_PROFILE, profileId },
 			payload => {
 				if (!payload || payload.type !== GOT_LABELS) {
-					if (counter < 60) {
-						timerId = setTimeout(() => {
-							setCounter(counter + 1)
-						}, 1000)
-					}
+					timerId = setTimeout(() => setCounter(counter + 1), 1000)
 					return
 				}
 				setLabels(payload.labels)
