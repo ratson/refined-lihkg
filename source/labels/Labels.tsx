@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ErrorBoundary from './ErrorBoundary'
-import { useLabelsByProfileId } from './useLabels'
+import { useLabelsByProfileId, useLabelsByThreadId } from './useLabels'
 
 const LabelsContainer = styled.div`
 	font-size: 14px;
@@ -13,9 +12,7 @@ const Label = styled.div`
 	margin-right: 4px;
 `
 
-const LabelsRow: React.FC<{ profileId: string }> = ({ profileId }) => {
-	const labels = useLabelsByProfileId(profileId)
-
+const LabelsRow: React.FC<{ labels: string[] }> = ({ labels }) => {
 	return (
 		<LabelsContainer>
 			{labels.map(s => (
@@ -25,14 +22,14 @@ const LabelsRow: React.FC<{ profileId: string }> = ({ profileId }) => {
 	)
 }
 
-const Labels: React.FC<{ profileId: string }> = ({ profileId }) => {
-	return (
-		<ErrorBoundary>
-			<React.Suspense fallback={<div />}>
-				<LabelsRow profileId={profileId} />
-			</React.Suspense>
-		</ErrorBoundary>
-	)
+export const ProfileLabels: React.FC<{ profileId: string }> = ({
+	profileId
+}) => {
+	const labels = useLabelsByProfileId(profileId)
+	return <LabelsRow labels={labels} />
 }
 
-export default Labels
+export const ThreadLabels: React.FC<{ threadId: string }> = ({ threadId }) => {
+	const labels = useLabelsByThreadId(threadId)
+	return <LabelsRow labels={labels} />
+}

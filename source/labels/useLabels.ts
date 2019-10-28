@@ -1,5 +1,9 @@
 import React from 'react'
-import { GET_LABELS_BY_PROFILE, GOT_LABELS } from '../lib/messages'
+import {
+	GET_LABELS_BY_PROFILE,
+	GET_LABELS_BY_THREAD,
+	GOT_LABELS
+} from '../lib/messages'
 
 const useLabels = (message: { type: string; [k: string]: any }) => {
 	const [labels, setLabels] = React.useState<Array<string>>([])
@@ -32,6 +36,14 @@ export const useLabelsByProfileId = (profileId: string) => {
 	const message = React.useMemo(
 		() => ({ type: GET_LABELS_BY_PROFILE, profileId }),
 		[profileId]
+	)
+	return useLabels(message)
+}
+
+export const useLabelsByThreadId = (threadId: string) => {
+	const message = React.useMemo(
+		() => ({ type: GET_LABELS_BY_THREAD, threadId }),
+		[threadId]
 	)
 	return useLabels(message)
 }
