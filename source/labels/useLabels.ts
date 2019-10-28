@@ -1,7 +1,7 @@
 import React from 'react'
 import { GET_LABELS_BY_PROFILE, GOT_LABELS } from '../lib/messages'
 
-export const useLabelsByProfileId = (profileId: string) => {
+const useLabels = (message: { type: string; [k: string]: any }) => {
 	const [labels, setLabels] = React.useState<Array<string>>([])
 	const [counter, setCounter] = React.useState(0)
 
@@ -12,21 +12,26 @@ export const useLabelsByProfileId = (profileId: string) => {
 			return
 		}
 
-		chrome.runtime.sendMessage(
-			{ type: GET_LABELS_BY_PROFILE, profileId },
-			payload => {
-				if (!payload || payload.type !== GOT_LABELS) {
-					timerId = setTimeout(() => setCounter(counter + 1), 1000)
-					return
-				}
-				setLabels(payload.labels)
+		chrome.runtime.sendMessage(message, payload => {
+			if (!payload || payload.type !== GOT_LABELS) {
+				timerId = setTimeout(() => setCounter(counter + 1), 1000)
+				return
 			}
-		)
+			setLabels(payload.labels)
+		})
 
 		return () => {
 			clearTimeout(timerId)
 		}
-	}, [profileId, counter])
+	}, [message, counter])
 
 	return labels
+}
+
+export const useLabelsByProfileId = (profileId: string) => {
+	const message = React.useMemo(
+		() => ({ type: GET_LABELS_BY_PROFILE, profileId }),
+		[profileId]
+	)
+	return useLabels(message)
 }
