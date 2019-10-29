@@ -12,15 +12,13 @@ const Label = styled.div`
 	margin-right: 4px;
 `
 
-const LabelsRow: React.FC<{ labels: string[] }> = ({ labels }) => {
-	return (
-		<LabelsContainer>
-			{labels.map(s => (
-				<Label key={s}>{s}</Label>
-			))}
-		</LabelsContainer>
-	)
-}
+const LabelsRow: React.FC<{ labels: string[] }> = ({ labels }) => (
+	<LabelsContainer>
+		{labels.map(s => (
+			<Label key={s}>{s}</Label>
+		))}
+	</LabelsContainer>
+)
 
 export const ProfileLabels: React.FC<{ profileId: string }> = ({
 	profileId
