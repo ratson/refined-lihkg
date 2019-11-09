@@ -20,7 +20,5 @@ test:
 
 release:
   stage: release
-  variables:
-    NODE_ENV: production
   script:
     - yarn release
